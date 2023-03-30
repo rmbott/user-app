@@ -4,6 +4,12 @@
 # or if it is the distant future, here:
 # https://web.archive.org/web/20230127160400/https://fastapi.tiangolo.com/tutorial/security/oauth2-jwt/
 #
+# To run this you'll need to setup a postgres database and role that can 
+# create tables. You can install FastAPI and other dependencies using pip.
+#      pip install "fastapi[all]"
+# You'll also need install uvicorn and run it with:
+#      uvicorn main:app --reload
+# then open index.html in a browser. 
 
 from datetime import timedelta
 from fastapi import Depends, FastAPI, HTTPException, status
@@ -37,7 +43,6 @@ async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends(
         data={"sub": user.username}, expires_delta=access_token_expires
     )
     return {"access_token": access_token, "token_type": "bearer"}
-
 
 @app.get("/users/me/", response_model=User)
 async def read_users_me(current_user: User = Depends(get_current_active_user)):
